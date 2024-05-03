@@ -54,20 +54,20 @@ export default function Hero() {
               loop={true}
               className="sliderFeaturedPosts"
             >
-              {heroSlides.map((slide, index) => (
-                <SwiperSlide key={index}>
+              {heroSlides.map((slide: any) => (
+                <SwiperSlide>
                   {/* include customized hero slide template */}
                   <HeroSlide slide={slide} />
                 </SwiperSlide>
               ))}
             </Swiper>
             <div className="custom-swiper-button-next">
-              <span className="bi-chevron-right"></span>
-            </div>
-            <div className="custom-swiper-button-prev">
-              <span className="bi-chevron-left"></span>
-            </div>
-            <div className="swiper-pagination"></div>
+                <span className="bi-chevron-right"></span>
+              </div>
+              <div className="custom-swiper-button-prev">
+                <span className="bi-chevron-left"></span>
+              </div>
+              <div className="swiper-pagination"></div>
           </div>
         </div>
       </div>
