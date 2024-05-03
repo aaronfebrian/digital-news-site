@@ -50,24 +50,24 @@ export default function Hero() {
                 nextEl: ".custom-swiper-button-next",
                 prevEl: ".custom-swiper-button-prev",
               }}
-              modules={[Autoplay, Pagination, Navigation]} // Menyertakan modul-modul yang diperlukan di sini
+              modules={[Autoplay, Pagination, Navigation]}
               loop={true}
               className="sliderFeaturedPosts"
             >
-              {heroSlides.map((slide) => (
-                <SwiperSlide>
+              {heroSlides.map((slide, index) => (
+                <SwiperSlide key={index}>
                   {/* include customized hero slide template */}
                   <HeroSlide slide={slide} />
                 </SwiperSlide>
               ))}
             </Swiper>
             <div className="custom-swiper-button-next">
-                <span className="bi-chevron-right"></span>
-              </div>
-              <div className="custom-swiper-button-prev">
-                <span className="bi-chevron-left"></span>
-              </div>
-              <div className="swiper-pagination"></div>
+              <span className="bi-chevron-right"></span>
+            </div>
+            <div className="custom-swiper-button-prev">
+              <span className="bi-chevron-left"></span>
+            </div>
+            <div className="swiper-pagination"></div>
           </div>
         </div>
       </div>
