@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import React, { useState } from "react";
 import "./header.css";
 import Nav from "./Nav";
 import Sci from "./Sci";
