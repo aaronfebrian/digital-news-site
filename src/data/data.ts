@@ -17,18 +17,18 @@ export const navs = [
     link: '/createpostitems',
     active: false,
   },
-  {
-    id: 4,
-    name: 'About',
-    link: '/about',
-    active: false,
-  },
-  {
-    id: 5,
-    name: 'Contact',
-    link: '/contact',
-    active: false,
-  },
+  // {
+  //   id: 4,
+  //   name: 'About',
+  //   link: '/about',
+  //   active: false,
+  // },
+  // {
+  //   id: 5,
+  //   name: 'Contact',
+  //   link: '/contact',
+  //   active: false,
+  // },
 ];
 
 export const scis = [

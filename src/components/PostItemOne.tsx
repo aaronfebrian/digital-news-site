@@ -1,27 +1,26 @@
 import React from "react";
 import "./postItemOne.css";
 import Link from "next/link";
+import { PostProps } from "@/sections/Posts";
 
 export default function PostItemOne({
   large,
   item,
 }: {
   large: boolean;
-  item: {
-    _id: string;
-    img: string;
-    category: string;
-    date: string;
-    title: string;
-    brief: string;
-    avatar: string;
-    author: string;
-  };
+  item: PostProps;
 }) {
+  // Fungsi untuk memotong brief menjadi sekitar 5 kalimat dan menambahkan "..." di akhir
+  const trimBrief = (brief: string, maxSentences: number) => {
+    const sentences = brief.split(/[.!?]/);
+    const maxIndex = Math.min(maxSentences, sentences.length);
+    return sentences.slice(0, maxIndex).join(".") + (sentences.length > maxSentences ? "..." : "");
+  };
+
   return (
     <div className={`post-entry-1 ${large ? "lg" : ""}`}>
       <Link href={`/postitems/${item._id}`}>
-        <img src={`/${item.img}`} alt="" className="img-fluid" />
+        <img src={item.img} alt="image" className="img-fluid" />
       </Link>
       <div className="post-meta">
         <span className="date">{item.category}</span>
@@ -35,7 +34,7 @@ export default function PostItemOne({
       </h2>
       {large ? (
         <>
-          <p className="mb-4 d-block">{item.brief}</p>
+          <p className="mb-4 d-block">{trimBrief(item.brief, 5)}</p>
 
           <div className="d-flex align-items-center author">
             <div className="photo">

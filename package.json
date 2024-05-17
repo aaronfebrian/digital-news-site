@@ -14,6 +14,7 @@
     "bootstrap-icons": "^1.11.3",
     "dotenv": "^16.4.5",
     "mongoose": "^8.3.3",
+    "multer": "^1.4.5-lts.1",
     "next": "14.2.3",
     "react": "^18",
     "react-dom": "^18",
@@ -21,6 +22,7 @@
   },
   "devDependencies": {
     "@types/aos": "^3.0.7",
+    "@types/multer": "^1.4.11",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
