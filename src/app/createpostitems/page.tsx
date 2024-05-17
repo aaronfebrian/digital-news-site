@@ -1,15 +1,7 @@
 "use client";
 import Footer from "@/components/Footer";
 import React, { useState } from "react";
-
-export const initialState = {
-  title: "",
-  img: "",
-  category: "",
-  author: "",
-  brief: "",
-  validate: "",
-};
+import { initialState } from "./initialState"; 
 
 export default function CreatePostItem() {
   const [text, setText] = useState(initialState);
