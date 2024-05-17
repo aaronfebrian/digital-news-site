@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { initialState } from "../page";
+import { initialState } from "../initialState"; 
 
 export default function EditPostItem({ params }: { params: { id: string } }) {
   const id = params.id;
