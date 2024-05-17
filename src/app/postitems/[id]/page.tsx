@@ -13,7 +13,7 @@ export default function PostItem({ params }: { params: { id: string } }) {
   const id: string = params.id;
   const router = useRouter();
   const [item, setItem] = useState(initialPost);
-  const [items, setItems] = useState([]);
+  const [items, setItems] = useState<PostProps[]>([]);
 
   const tabsData = [
     { id: 1, name: "Popular", active: true },
@@ -25,8 +25,7 @@ export default function PostItem({ params }: { params: { id: string } }) {
   const handleTabActive = (id: number): void => {
     setTabs(
       tabsData.map((tab) => {
-        tab.active = false;
-        if (tab.id === id) tab.active = true;
+        tab.active = tab.id === id;
         return tab;
       })
     );
@@ -52,7 +51,6 @@ export default function PostItem({ params }: { params: { id: string } }) {
   }, []);
 
   const handleDeletePost = async (id: string) => {
-    // hapus post request
     try {
       const response = await fetch(`/api/postitems/${id}`, {
         method: "DELETE",
@@ -60,9 +58,8 @@ export default function PostItem({ params }: { params: { id: string } }) {
           "Content-Type": "application/json",
         },
       });
-      const result = response.status;
-      if (result === 200) {
-        console.log("Success", result);
+      if (response.status === 200) {
+        console.log("Success", response.status);
         router.push(`/postitems`);
       }
     } catch (error) {
@@ -100,19 +97,7 @@ export default function PostItem({ params }: { params: { id: string } }) {
                   </div>
                   <h1 className="mb-5">{item.title}</h1>
                   <figure className="my-4">
-                    {/* <Image
-                      src={`/${item.img}`}
-                      alt=""
-                      className="img-fluid"
-                      width={100}
-                      height={100}
-                      layout="responsive"
-                    /> */}
                     <img src={item.img} alt="image" className="img-fluid" />
-                    {/* <figcaption>
-                      Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-                      Explicabe, edit?
-                    </figcaption> */}
                   </figure>
                   <div>{item.brief && renderBrief(item.brief)}</div>
                   <div className="d-flex justify-content-center gap-4">
@@ -156,7 +141,7 @@ export default function PostItem({ params }: { params: { id: string } }) {
                       tabs[0].active ? "show active" : ""
                     }`}
                   >
-                    {items.slice(0, 6).map((item: PostProps) => (
+                    {items.slice(0, 7).map((item: PostProps) => (
                       <SidePostItem key={item._id} item={item} />
                     ))}
                   </div>
@@ -165,7 +150,7 @@ export default function PostItem({ params }: { params: { id: string } }) {
                       tabs[1].active ? "show active" : ""
                     }`}
                   >
-                    {items.slice(6, 12).map((item: PostProps) => (
+                    {items.filter(item => item.trending).slice(0, 7).map((item: PostProps) => (
                       <SidePostItem key={item._id} item={item} />
                     ))}
                   </div>

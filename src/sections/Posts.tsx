@@ -15,7 +15,8 @@ export interface PostProps {
   title: string;
   brief: string;
   avatar: string;
-  author: string;
+  author: string; 
+  trending: boolean
 }
 
 export const initialPost = {
@@ -27,6 +28,7 @@ export const initialPost = {
   brief: '',
   avatar: '',
   author: '',
+  trending: false,
 }
 
 export default function Posts() {
