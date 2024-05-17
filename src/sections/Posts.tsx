@@ -55,7 +55,7 @@ export default function Posts() {
 
   useEffect(() => {
     getItemsData();
-    getSinglePostdata("664482c7c9aa09ff2ac8cb29");
+    getSinglePostdata("6646c9fafb38ec882b102655");
   }, []);
 
   return (
