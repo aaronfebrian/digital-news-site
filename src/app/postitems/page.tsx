@@ -1,3 +1,4 @@
+// PostItems.tsx
 "use client";
 import Footer from "@/components/Footer";
 import PageTitle from "@/components/PageTitle";
@@ -13,12 +14,10 @@ export default function PostItems() {
   const [userRole, setUserRole] = useState<string | null>(null);
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      const storedUser = localStorage.getItem("user");
-      if (storedUser) {
-        const user = JSON.parse(storedUser);
-        setUserRole(user.role);
-      }
+    const storedUser = localStorage.getItem("user");
+    if (storedUser) {
+      const user = JSON.parse(storedUser);
+      setUserRole(user.role);
     }
   }, []);
 
