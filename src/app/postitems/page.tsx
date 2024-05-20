@@ -10,6 +10,17 @@ import Header from "@/components/Header";
 
 export default function PostItems() {
   const [items, setItems] = useState([]);
+  const [userRole, setUserRole] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const storedUser = localStorage.getItem("user");
+      if (storedUser) {
+        const user = JSON.parse(storedUser);
+        setUserRole(user.role);
+      }
+    }
+  }, []);
 
   const getItemsData = () => {
     fetch(`/api/postitems`)

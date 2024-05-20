@@ -1,6 +1,6 @@
 "use client";
 import Footer from "@/components/Footer";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { initialState } from "./initialState";
 import Header from "@/components/Header";
 
@@ -9,6 +9,17 @@ export default function CreatePostItem() {
   const [image, setImage] = useState<any>(null);
   const [isSending, setIsSending] = useState(false);
   const [imageError, setImageError] = useState("");
+  const [userRole, setUserRole] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const storedUser = localStorage.getItem("user");
+      if (storedUser) {
+        const user = JSON.parse(storedUser);
+        setUserRole(user.role);
+      }
+    }
+  }, []);
 
   const handleFileChange = (event: any) => {
     const file = event.target.files[0];
