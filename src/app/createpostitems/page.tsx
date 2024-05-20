@@ -1,6 +1,6 @@
 "use client";
 import Footer from "@/components/Footer";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { initialState } from "./initialState";
 import Header from "@/components/Header";
 
@@ -9,18 +9,6 @@ export default function CreatePostItem() {
   const [image, setImage] = useState<any>(null);
   const [isSending, setIsSending] = useState(false);
   const [imageError, setImageError] = useState("");
-  const [isClient, setIsClient] = useState(false);
-
-  useEffect(() => {
-    setIsClient(true);
-  }, []);
-
-  const handleSomeAction = () => {
-    if (isClient) {
-      const storedUser = localStorage.getItem('user');
-      // Lakukan sesuatu dengan localStorage di sini
-    }
-  };
 
   console.log(image);
 

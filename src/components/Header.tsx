@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import ProtectedRoute from "@/components/ProtectedRoute";
 import "./header.css";
 import Nav from "./Nav";
@@ -10,12 +10,19 @@ interface User {
   role: string;
 }
 
-export default function Header() {
+export default function HeaderAdmin() {
+  const [user, setUser] = useState<User | null>(null);
   const [showUserMenu, setShowUserMenu] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false); // State untuk toggle menu
 
-  const user = JSON.parse(localStorage.getItem("user") || '{}');
-  const isAdmin = user.role === "admin";
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const storedUser = localStorage.getItem("user");
+      if (storedUser) {
+        setUser(JSON.parse(storedUser));
+      }
+    }
+  }, []);
 
   const handleUserClick = () => {
     setShowUserMenu(!showUserMenu);
@@ -33,7 +40,7 @@ export default function Header() {
           <a href="/" className="logo d-flex align-items-center">
             <h1>Info.in</h1>
           </a>
-          <Nav userRole={isAdmin ? "admin" : "user"} />
+          <Nav userRole={user?.role ?? "user"} />
           <div className="position-relative">
             <Sci />
             <a className="mx-2 user-icon" onClick={handleUserClick}>
