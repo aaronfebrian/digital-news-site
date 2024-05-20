@@ -14,8 +14,7 @@ export default function Header() {
   const [showUserMenu, setShowUserMenu] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false); // State untuk toggle menu
 
-  // Mengambil data pengguna dari sessionStorage
-  const user = JSON.parse(sessionStorage.getItem("user") || '{}');
+  const user = JSON.parse(localStorage.getItem("user") || '{}');
   const isAdmin = user.role === "admin";
 
   const handleUserClick = () => {

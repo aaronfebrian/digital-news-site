@@ -1,6 +1,6 @@
 "use client";
-import React, { useEffect, useState } from "react";
 import { PostProps, initialPost } from "@/sections/Posts";
+import React, { useEffect, useState } from "react";
 import "./style.css";
 import Image from "next/image";
 import Preloader from "@/components/Preloader";
@@ -18,7 +18,7 @@ export default function PostItem({ params }: { params: { id: string } }) {
   const [userRole, setUserRole] = useState<string | null>(null);
 
   useEffect(() => {
-    const storedUser = sessionStorage.getItem("user");
+    const storedUser = localStorage.getItem("user");
     if (storedUser) {
       const user = JSON.parse(storedUser);
       setUserRole(user.role);
@@ -111,7 +111,7 @@ export default function PostItem({ params }: { params: { id: string } }) {
                     <img src={item.img} alt="image" className="img-fluid" />
                   </figure>
                   <div>{item.brief && renderBrief(item.brief)}</div>
-                  {userRole === "admin" && (
+                  {userRole === 'admin' && (
                     <div className="d-flex justify-content-center gap-4">
                       <a
                         className="btn btn-primary"
