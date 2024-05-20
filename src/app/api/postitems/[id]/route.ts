@@ -60,15 +60,40 @@ export async function DELETE(
           status: 404,
         }
       );
-  return new Response(JSON.stringify(postItem), {
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    status: 200,
-  });
+    return new Response(JSON.stringify(postItem), {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      status: 200,
+    });
   } catch (error) {
     return new Response(JSON.stringify({ message: "SERVER ERROR" }), {
       status: 500,
     });
   }
 }
+
+// export async function SEARCH(
+//   request: Request,
+//   { params }: { params: { keyword: string } }
+// ) {
+//   const keyword = params.keyword;
+//   try {
+//     const searchResults = await PostItem.find({
+//       $or: [
+//         { title: { $regex: keyword, $options: "i" } }, // Pencarian berdasarkan judul
+//         { category: { $regex: keyword, $options: "i" } }, // Pencarian berdasarkan kategori
+//       ],
+//     });
+//     return new Response(JSON.stringify(searchResults), {
+//       headers: {
+//         "Content-Type": "application/json",
+//       },
+//       status: 200,
+//     });
+//   } catch (error) {
+//     return new Response(JSON.stringify({ message: "SERVER ERROR" }), {
+//       status: 500,
+//     });
+//   }
+// }

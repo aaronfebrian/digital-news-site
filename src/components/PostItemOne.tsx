@@ -12,6 +12,7 @@ export default function PostItemOne({
 }) {
   // Fungsi untuk memotong brief menjadi sekitar 5 kalimat dan menambahkan "..." di akhir
   const trimBrief = (brief: string, maxSentences: number) => {
+    if (!brief) return ""; // Mengembalikan string kosong jika brief tidak ada
     const sentences = brief.split(/[.!?]/);
     const maxIndex = Math.min(maxSentences, sentences.length);
     return sentences.slice(0, maxIndex).join(".") + (sentences.length > maxSentences ? "..." : "");

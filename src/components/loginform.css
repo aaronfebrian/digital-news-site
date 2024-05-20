@@ -1,0 +1,19 @@
+.gradient-custom-2 {
+  /* fallback for old browsers */
+  background: #000000;
+  background-image: url("../../public/assets/img/Timeless%20Treasures%20-%20Newspaper%20Print%20-%20Black%20Fabric%20by%20Wing%20and%20a%20Prayer%20Design%20-%20Digital%20Print%20-%20Cotton%20Fabric.jpeg");
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+@media (min-width: 768px) {
+  .gradient-form {
+    height: 100vh !important;
+  }
+}
+@media (min-width: 769px) {
+  .gradient-custom-2 {
+    border-top-right-radius: 0.3rem;
+    border-bottom-right-radius: 0.3rem;
+  }
+}

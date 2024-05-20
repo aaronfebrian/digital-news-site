@@ -1,7 +1,8 @@
 "use client";
 import Footer from "@/components/Footer";
 import React, { useState } from "react";
-import { initialState } from "./initialState"; 
+import { initialState } from "./initialState";
+import Header from "@/components/Header";
 
 export default function CreatePostItem() {
   const [text, setText] = useState(initialState);
@@ -18,7 +19,9 @@ export default function CreatePostItem() {
       img.src = URL.createObjectURL(file);
       img.onload = () => {
         if (img.width > 1000 || img.height > 1000) {
-          setImageError("Image dimensions should be less than or equal to 1000x1000.");
+          setImageError(
+            "Image dimensions should be less than or equal to 1000x1000."
+          );
           setImage(null);
         } else {
           setImageError("");
@@ -36,7 +39,12 @@ export default function CreatePostItem() {
   const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (text.title === "" || !image || text.category === "" || text.brief === "") {
+    if (
+      text.title === "" ||
+      !image ||
+      text.category === "" ||
+      text.brief === ""
+    ) {
       setText({ ...text, validate: "incomplete" });
       return;
     }
@@ -45,13 +53,19 @@ export default function CreatePostItem() {
 
     try {
       const formData = new FormData();
-      formData.append('file', image);
-      formData.append('upload_preset', process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET_NAME!);
+      formData.append("file", image);
+      formData.append(
+        "upload_preset",
+        process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET_NAME!
+      );
 
-      const imageResponse = await fetch(`https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload`, {
-        method: 'POST',
-        body: formData,
-      });
+      const imageResponse = await fetch(
+        `https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload`,
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
 
       const imageData = await imageResponse.json();
 
@@ -88,6 +102,7 @@ export default function CreatePostItem() {
 
   return (
     <main id="main">
+      <Header />
       <section className="create-post-content">
         <div className="container">
           <div className="row d-flex justify-content-center">
@@ -113,7 +128,12 @@ export default function CreatePostItem() {
                         />
                       </div>
                       <div className="col-lg-6 mb-3">
-                      <label>Image File <span className="text-muted">(Recommended: 900x571)</span></label>
+                        <label>
+                          Image File{" "}
+                          <span className="text-muted">
+                            (Recommended: 900x571)
+                          </span>
+                        </label>
                         <input
                           type="file"
                           name="img"
@@ -170,10 +190,14 @@ export default function CreatePostItem() {
                           <div className="loading">Sending Post</div>
                         )}
                         {text.validate === "incomplete" && (
-                          <div className="error-message">Please fill in all above details</div>
+                          <div className="error-message">
+                            Please fill in all above details
+                          </div>
                         )}
                         {text.validate === "success" && (
-                          <div className="sent-message">Your news was posted successfully!</div>
+                          <div className="sent-message">
+                            Your news was posted successfully!
+                          </div>
                         )}
                         {text.validate === "error" && (
                           <div className="error-message">Server Error</div>
@@ -187,7 +211,9 @@ export default function CreatePostItem() {
                         >
                           {isSending ? (
                             <span className="sending-text">
-                              Sending Post<span className="dot-1">.</span><span className="dot-2">.</span><span className="dot-3">.</span>
+                              Sending Post<span className="dot-1">.</span>
+                              <span className="dot-2">.</span>
+                              <span className="dot-3">.</span>
                             </span>
                           ) : (
                             "Post Item"
@@ -207,7 +233,9 @@ export default function CreatePostItem() {
           display: inline-flex;
           align-items: center;
         }
-        .dot-1, .dot-2, .dot-3 {
+        .dot-1,
+        .dot-2,
+        .dot-3 {
           animation: blink 1.4s infinite both;
         }
         .dot-2 {

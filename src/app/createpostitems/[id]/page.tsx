@@ -1,6 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { initialState } from "../initialState"; 
+import { initialState } from "../initialState";
+import Header from "@/components/Header";
 
 export default function EditPostItem({ params }: { params: { id: string } }) {
   const id = params.id;
@@ -48,13 +49,19 @@ export default function EditPostItem({ params }: { params: { id: string } }) {
 
     try {
       const formData = new FormData();
-      formData.append('file', image);
-      formData.append('upload_preset', process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET_NAME!);
+      formData.append("file", image);
+      formData.append(
+        "upload_preset",
+        process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET_NAME!
+      );
 
-      const imageResponse = await fetch(`https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload`, {
-        method: 'PUT',
-        body: formData,
-      });
+      const imageResponse = await fetch(
+        `https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload`,
+        {
+          method: "PUT",
+          body: formData,
+        }
+      );
 
       const imageData = await imageResponse.json();
 
@@ -86,11 +93,12 @@ export default function EditPostItem({ params }: { params: { id: string } }) {
       console.log("Error", error);
     }
 
-    setIsSending(false);  // Set isSending false jika pengiriman selesai
+    setIsSending(false); // Set isSending false jika pengiriman selesai
   };
 
   return (
     <main id="main">
+      <Header />
       <section className="create-post-content">
         <div className="container">
           <div className="row d-flex justify-content-center">
@@ -168,10 +176,14 @@ export default function EditPostItem({ params }: { params: { id: string } }) {
                           <div className="loading">Updating Post</div>
                         )}
                         {text.validate === "incomplete" && (
-                          <div className="error-message">Please fill in all above details</div>
+                          <div className="error-message">
+                            Please fill in all above details
+                          </div>
                         )}
                         {text.validate === "success" && (
-                          <div className="sent-message">Your news was updated!</div>
+                          <div className="sent-message">
+                            Your news was updated!
+                          </div>
                         )}
                         {text.validate === "error" && (
                           <div className="error-message">Server Error</div>
@@ -185,7 +197,9 @@ export default function EditPostItem({ params }: { params: { id: string } }) {
                         >
                           {isSending ? (
                             <span className="sending-text">
-                              Sending Update<span className="dot-1">.</span><span className="dot-2">.</span><span className="dot-3">.</span>
+                              Sending Update<span className="dot-1">.</span>
+                              <span className="dot-2">.</span>
+                              <span className="dot-3">.</span>
                             </span>
                           ) : (
                             "Update Post"
@@ -205,7 +219,9 @@ export default function EditPostItem({ params }: { params: { id: string } }) {
           display: inline-flex;
           align-items: center;
         }
-        .dot-1, .dot-2, .dot-3 {
+        .dot-1,
+        .dot-2,
+        .dot-3 {
           animation: blink 1.4s infinite both;
         }
         .dot-2 {

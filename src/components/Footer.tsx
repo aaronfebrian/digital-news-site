@@ -9,7 +9,7 @@ export default function Footer() {
         © 2024 Copyright:
         <a className="text-white" href="#">
           {" "}
-          ARNews
+          Info.in
         </a>
       </div>
     </footer>

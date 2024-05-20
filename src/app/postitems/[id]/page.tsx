@@ -8,12 +8,22 @@ import SidePostItem from "@/components/SidePostItem";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import Footer from "@/components/Footer";
+import Header from "@/components/Header";
 
 export default function PostItem({ params }: { params: { id: string } }) {
   const id: string = params.id;
   const router = useRouter();
   const [item, setItem] = useState(initialPost);
   const [items, setItems] = useState<PostProps[]>([]);
+  const [userRole, setUserRole] = useState<string | null>(null);
+
+  useEffect(() => {
+    const storedUser = localStorage.getItem("user");
+    if (storedUser) {
+      const user = JSON.parse(storedUser);
+      setUserRole(user.role);
+    }
+  }, []);
 
   const tabsData = [
     { id: 1, name: "Popular", active: true },
@@ -80,6 +90,7 @@ export default function PostItem({ params }: { params: { id: string } }) {
 
   return (
     <main id="main">
+      <Header />
       <section className="single-post-content">
         <div className="container">
           <div className="row">
@@ -100,20 +111,22 @@ export default function PostItem({ params }: { params: { id: string } }) {
                     <img src={item.img} alt="image" className="img-fluid" />
                   </figure>
                   <div>{item.brief && renderBrief(item.brief)}</div>
-                  <div className="d-flex justify-content-center gap-4">
-                    <a
-                      className="btn btn-primary"
-                      onClick={() => handleDeletePost(id)}
-                    >
-                      <i className="bi bi-trash"></i>
-                    </a>
-                    <Link
-                      href={`/createpostitems/${id}`}
-                      className="btn btn-primary"
-                    >
-                      <i className="bi bi-pen"></i>
-                    </Link>
-                  </div>
+                  {userRole === 'admin' && (
+                    <div className="d-flex justify-content-center gap-4">
+                      <a
+                        className="btn btn-primary"
+                        onClick={() => handleDeletePost(id)}
+                      >
+                        <i className="bi bi-trash"></i>
+                      </a>
+                      <Link
+                        href={`/createpostitems/${id}`}
+                        className="btn btn-primary"
+                      >
+                        <i className="bi bi-pen"></i>
+                      </Link>
+                    </div>
+                  )}
                 </div>
               ) : (
                 <Preloader />
@@ -150,9 +163,12 @@ export default function PostItem({ params }: { params: { id: string } }) {
                       tabs[1].active ? "show active" : ""
                     }`}
                   >
-                    {items.filter(item => item.trending).slice(0, 7).map((item: PostProps) => (
-                      <SidePostItem key={item._id} item={item} />
-                    ))}
+                    {items
+                      .filter((item) => item.trending)
+                      .slice(0, 7)
+                      .map((item: PostProps) => (
+                        <SidePostItem key={item._id} item={item} />
+                      ))}
                   </div>
                 </div>
               </div>

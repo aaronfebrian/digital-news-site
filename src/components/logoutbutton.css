@@ -1,0 +1,11 @@
+/* components/logoutbutton.css */
+.logout-button {
+    border: none; /* Menghilangkan border */
+    background: none; /* Menghilangkan background */
+    cursor: pointer;
+  }
+  
+  .logout-button span {
+    margin-right: 0.5rem;
+  }
+  
