@@ -1,4 +1,4 @@
-// components/LoginForm.tsx
+"use client";
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
@@ -88,7 +88,7 @@ export default function LoginForm() {
                       </div>
 
                       <div className="d-flex align-items-center justify-content-center pb-4">
-                        <p className="mb-0 me-2">Don't have an account?</p>
+                        <p className="mb-0 me-2">Don&apos;t have an account?</p>
                         <Link href="/register">
                           <button
                             type="button"
@@ -108,12 +108,12 @@ export default function LoginForm() {
                       Events
                     </h4>
                     <p className="small mb-0">
-                      We've redefined how you experience the
-                      news. No stuffy suits or formalities here—just a casual
+                      We&apos;ve redefined how you experience the
+                      news. No stuffy suits or formalities here&mdash;just a casual
                       connection to the stories that matter. Join us as we
                       breeze through the latest headlines, offering you a
                       relaxed yet informative approach to staying updated.
-                      Whether you're lounging at home or on the go, let us be
+                      Whether you&apos;re lounging at home or on the go, let us be
                       your laid-back guide to the ever-changing world around us.
                     </p>
                   </div>

@@ -129,11 +129,11 @@ const Register: React.FC = () => {
                       Events
                     </h4>
                     <p className="small mb-0">
-                      We've redefined how you experience the news. No stuffy
-                      suits or formalities here—just a casual connection to the
+                      We&apos;ve redefined how you experience the news. No stuffy
+                      suits or formalities here&mdash;just a casual connection to the
                       stories that matter. Join us as we breeze through the
                       latest headlines, offering you a relaxed yet informative
-                      approach to staying updated. Whether you're lounging at
+                      approach to staying updated. Whether you&apos;re lounging at
                       home or on the go, let us be your laid-back guide to the
                       ever-changing world around us.
                     </p>
