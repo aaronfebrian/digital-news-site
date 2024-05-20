@@ -1,6 +1,6 @@
 "use client";
 import Footer from "@/components/Footer";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { initialState } from "./initialState";
 import Header from "@/components/Header";
 
@@ -9,18 +9,6 @@ export default function CreatePostItem() {
   const [image, setImage] = useState<any>(null);
   const [isSending, setIsSending] = useState(false);
   const [imageError, setImageError] = useState("");
-  const [userRole, setUserRole] = useState<string | null>(null);
-
-  useEffect(() => {
-    // Check if window object is defined to ensure client-side execution
-    if (typeof window !== 'undefined') {
-      const storedUser = localStorage.getItem("user");
-      if (storedUser) {
-        const user = JSON.parse(storedUser);
-        setUserRole(user.role);
-      }
-    }
-  }, []);
 
   console.log(image);
 

@@ -1,6 +1,5 @@
-"use client";
-import { PostProps, initialPost } from "@/sections/Posts";
 import React, { useEffect, useState } from "react";
+import { PostProps, initialPost } from "@/sections/Posts";
 import "./style.css";
 import Image from "next/image";
 import Preloader from "@/components/Preloader";
@@ -18,12 +17,10 @@ export default function PostItem({ params }: { params: { id: string } }) {
   const [userRole, setUserRole] = useState<string | null>(null);
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const storedUser = localStorage.getItem("user");
-      if (storedUser) {
-        const user = JSON.parse(storedUser);
-        setUserRole(user.role);
-      }
+    const storedUser = sessionStorage.getItem("user");
+    if (storedUser) {
+      const user = JSON.parse(storedUser);
+      setUserRole(user.role);
     }
   }, []);
 
