@@ -1,3 +1,4 @@
+"use client";
 import React, { useEffect, useState } from "react";
 import { PostProps, initialPost } from "@/sections/Posts";
 import "./style.css";
@@ -110,7 +111,7 @@ export default function PostItem({ params }: { params: { id: string } }) {
                     <img src={item.img} alt="image" className="img-fluid" />
                   </figure>
                   <div>{item.brief && renderBrief(item.brief)}</div>
-                  {userRole === 'admin' && (
+                  {userRole === "admin" && (
                     <div className="d-flex justify-content-center gap-4">
                       <a
                         className="btn btn-primary"
