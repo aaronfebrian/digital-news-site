@@ -1,4 +1,3 @@
-// PostItems.tsx
 "use client";
 import Footer from "@/components/Footer";
 import PageTitle from "@/components/PageTitle";

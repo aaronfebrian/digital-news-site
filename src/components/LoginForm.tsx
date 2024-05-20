@@ -1,4 +1,4 @@
-"use client";
+// components/LoginForm.tsx
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
@@ -24,7 +24,9 @@ export default function LoginForm() {
 
       if (res.ok) {
         const data = await res.json();
-        localStorage.setItem("user", JSON.stringify(data.user));
+        if (typeof window !== "undefined") {
+          localStorage.setItem("user", JSON.stringify(data.user));
+        }
         setError(null);
         router.push("/home");
       } else {
@@ -37,7 +39,10 @@ export default function LoginForm() {
   };
 
   return (
-    <section className="h-100 gradient-form" style={{ backgroundColor: "#eee" }}>
+    <section
+      className="h-100 gradient-form"
+      style={{ backgroundColor: "#eee" }}
+    >
       <div className="container py-5 h-100">
         <div className="row d-flex justify-content-center align-items-center h-100">
           <div className="col-xl-10">
@@ -48,10 +53,8 @@ export default function LoginForm() {
                     <div className="text-center">
                       <h2 className="mt-1 mb-5 pb-1">Info.in</h2>
                     </div>
-
                     <form onSubmit={handleSubmit}>
                       <p>Please login to your account</p>
-
                       <div className="form-outline mb-4">
                         <input
                           type="email"
@@ -63,7 +66,6 @@ export default function LoginForm() {
                           onChange={handleChange}
                         />
                       </div>
-
                       <div className="form-outline mb-4">
                         <input
                           type="password"
@@ -75,20 +77,17 @@ export default function LoginForm() {
                           onChange={handleChange}
                         />
                       </div>
-
                       {error && <p className="error">{error}</p>}
-
                       <div className="text-center pt-1 mb-5 pb-1">
                         <button
-                          className="btn btn-primary btn-block  mb-3"
+                          className="btn btn-primary btn-block mb-3"
                           type="submit"
                         >
                           Log in
                         </button>
                       </div>
-
                       <div className="d-flex align-items-center justify-content-center pb-4">
-                        <p className="mb-0 me-2">Don&apos;t have an account?</p>
+                        <p className="mb-0 me-2">Don't have an account?</p>
                         <Link href="/register">
                           <button
                             type="button"
@@ -108,13 +107,13 @@ export default function LoginForm() {
                       Events
                     </h4>
                     <p className="small mb-0">
-                      We&apos;ve redefined how you experience the
-                      news. No stuffy suits or formalities here&mdash;just a casual
-                      connection to the stories that matter. Join us as we
-                      breeze through the latest headlines, offering you a
-                      relaxed yet informative approach to staying updated.
-                      Whether you&apos;re lounging at home or on the go, let us be
-                      your laid-back guide to the ever-changing world around us.
+                      We've redefined how you experience the news. No stuffy
+                      suits or formalities here—just a casual connection to the
+                      stories that matter. Join us as we breeze through the
+                      latest headlines, offering you a relaxed yet informative
+                      approach to staying updated. Whether you're lounging at
+                      home or on the go, let us be your laid-back guide to the
+                      ever-changing world around us.
                     </p>
                   </div>
                 </div>
