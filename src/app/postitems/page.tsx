@@ -11,6 +11,18 @@ import Header from "@/components/Header";
 
 export default function PostItems() {
   const [items, setItems] = useState([]);
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
+  const handleSomeAction = () => {
+    if (isClient) {
+      const storedUser = localStorage.getItem('user');
+      // Lakukan sesuatu dengan localStorage di sini
+    }
+  };
 
   const getItemsData = () => {
     fetch(`/api/postitems`)

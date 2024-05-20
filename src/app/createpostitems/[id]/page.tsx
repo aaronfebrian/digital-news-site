@@ -8,6 +8,17 @@ export default function EditPostItem({ params }: { params: { id: string } }) {
   const [text, setText] = useState(initialState);
   const [image, setImage] = useState<any>(null);
   const [isSending, setIsSending] = useState(false);
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
+  const handleSomeAction = () => {
+    if (isClient) {
+      const storedUser = localStorage.getItem('user');
+    }
+  };
 
   const getSinglePostData = () => {
     fetch(`/api/postitems/${id}`)
