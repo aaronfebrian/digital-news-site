@@ -12,10 +12,13 @@ export default function CreatePostItem() {
   const [userRole, setUserRole] = useState<string | null>(null);
 
   useEffect(() => {
-    const storedUser = localStorage.getItem("user");
-    if (storedUser) {
-      const user = JSON.parse(storedUser);
-      setUserRole(user.role);
+    // Check if window object is defined to ensure client-side execution
+    if (typeof window !== 'undefined') {
+      const storedUser = localStorage.getItem("user");
+      if (storedUser) {
+        const user = JSON.parse(storedUser);
+        setUserRole(user.role);
+      }
     }
   }, []);
 
