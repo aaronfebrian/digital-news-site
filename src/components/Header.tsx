@@ -10,7 +10,7 @@ interface User {
   role: string;
 }
 
-export default function HeaderAdmin() {
+export default function Header() {
   const [user, setUser] = useState<User | null>(null);
   const [showUserMenu, setShowUserMenu] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false); // State untuk toggle menu
