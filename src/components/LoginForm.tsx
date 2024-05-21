@@ -7,6 +7,7 @@ import "./loginform.css";
 export default function LoginForm() {
   const [form, setForm] = useState({ email: "", password: "" });
   const [error, setError] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const router = useRouter();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -15,6 +16,8 @@ export default function LoginForm() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setIsLoading(true);
+    setError(null);
     try {
       const res = await fetch("/api/login", {
         method: "POST",
@@ -35,14 +38,13 @@ export default function LoginForm() {
       }
     } catch (error) {
       setError("An unexpected error occurred. Please try again.");
+    } finally {
+      setIsLoading(false);
     }
   };
 
   return (
-    <section
-      className="h-100 gradient-form"
-      style={{ backgroundColor: "#eee" }}
-    >
+    <section className="h-100 gradient-form" style={{ backgroundColor: "#eee" }}>
       <div className="container py-5 h-100">
         <div className="row d-flex justify-content-center align-items-center h-100">
           <div className="col-xl-10">
@@ -82,17 +84,19 @@ export default function LoginForm() {
                         <button
                           className="btn btn-primary btn-block mb-3"
                           type="submit"
+                          disabled={isLoading}
                         >
-                          Log in
+                          {isLoading ? (
+                            <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                          ) : (
+                            "Log in"
+                          )}
                         </button>
                       </div>
                       <div className="d-flex align-items-center justify-content-center pb-4">
-                      <p className="mb-0 me-2">Don&apos;t have an account?</p>
+                        <p className="mb-0 me-2">Don&apos;t have an account?</p>
                         <Link href="/register">
-                          <button
-                            type="button"
-                            className="btn btn-outline-secondary"
-                          >
+                          <button type="button" className="btn btn-outline-secondary">
                             Create new
                           </button>
                         </Link>
@@ -103,8 +107,7 @@ export default function LoginForm() {
                 <div className="col-lg-6 d-flex align-items-center gradient-custom-2">
                   <div className="text-white px-3 py-4 p-md-5 mx-md-4">
                     <h4 className="mb-4">
-                      Breeze Through the News: Your Casual Connection to Current
-                      Events
+                      Breeze Through the News: Your Casual Connection to Current Events
                     </h4>
                     <p className="small mb-0">
                       We&apos;ve redefined how you experience the news. No stuffy

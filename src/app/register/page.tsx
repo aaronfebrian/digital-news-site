@@ -6,6 +6,8 @@ import "./registerform.css";
 
 const Register: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isSuccess, setIsSuccess] = useState<boolean>(false);
   const router = useRouter();
   const [formData, setFormData] = useState({
     username: "",
@@ -23,6 +25,8 @@ const Register: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setIsLoading(true);
+    setError(null);
     try {
       const response = await fetch("/api/register", {
         method: "POST",
@@ -33,20 +37,25 @@ const Register: React.FC = () => {
       });
       if (response.ok) {
         console.log("Registration successful");
-        // Redirect to login page or show success message
+        setIsSuccess(true);
+        setTimeout(() => {
+          router.push("/");
+        }, 2000); // Redirect after 2 seconds
       } else {
-        console.error("Registration failed:", await response.text());
+        const errorData = await response.text();
+        setError(`Registration failed: ${errorData}`);
+        console.error("Registration failed:", errorData);
       }
     } catch (error) {
+      setError(`Registration failed: ${error}`);
       console.error("Registration failed:", error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
   return (
-    <section
-      className="h-100 gradient-form"
-      style={{ backgroundColor: "#eee" }}
-    >
+    <section className="h-100 gradient-form" style={{ backgroundColor: "#eee" }}>
       <div className="container py-5 h-100">
         <div className="row d-flex justify-content-center align-items-center h-100">
           <div className="col-xl-10">
@@ -98,23 +107,26 @@ const Register: React.FC = () => {
                       </div>
 
                       {error && <p className="error">{error}</p>}
+                      {isSuccess && <p className="success">Sign up successfully!</p>}
 
                       <div className="text-center pt-1 mb-5 pb-1">
                         <button
-                          className="btn btn-primary btn-block  mb-3"
+                          className="btn btn-primary btn-block mb-3"
                           type="submit"
+                          disabled={isLoading}
                         >
-                          Sign in
+                          {isLoading ? (
+                            <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                          ) : (
+                            "Sign up"
+                          )}
                         </button>
                       </div>
 
                       <div className="d-flex align-items-center justify-content-center pb-4">
                         <p className="mb-0 me-2">Already have an account?</p>
                         <Link href="/">
-                          <button
-                            type="button"
-                            className="btn btn-outline-secondary"
-                          >
+                          <button type="button" className="btn btn-outline-secondary">
                             Login
                           </button>
                         </Link>
@@ -125,8 +137,7 @@ const Register: React.FC = () => {
                 <div className="col-lg-6 d-flex align-items-center gradient-custom-2">
                   <div className="text-white px-3 py-4 p-md-5 mx-md-4">
                     <h4 className="mb-4">
-                      Breeze Through the News: Your Casual Connection to Current
-                      Events
+                      Breeze Through the News: Your Casual Connection to Current Events
                     </h4>
                     <p className="small mb-0">
                       We&apos;ve redefined how you experience the news. No stuffy
