@@ -1,6 +1,6 @@
 "use client";
+import { useEffect, useState } from "react";
 import { PostProps, initialPost } from "@/sections/Posts";
-import React, { useEffect, useState } from "react";
 import "./style.css";
 import Image from "next/image";
 import Preloader from "@/components/Preloader";
@@ -16,9 +16,10 @@ export default function PostItem({ params }: { params: { id: string } }) {
   const [item, setItem] = useState(initialPost);
   const [items, setItems] = useState<PostProps[]>([]);
   const [userRole, setUserRole] = useState<string | null>(null);
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {
+    if (typeof window !== "undefined") {
       const storedUser = localStorage.getItem("user");
       if (storedUser) {
         const user = JSON.parse(storedUser);
@@ -113,11 +114,11 @@ export default function PostItem({ params }: { params: { id: string } }) {
                     <img src={item.img} alt="image" className="img-fluid" />
                   </figure>
                   <div>{item.brief && renderBrief(item.brief)}</div>
-                  {userRole === 'admin' && (
+                  {userRole === "admin" && (
                     <div className="d-flex justify-content-center gap-4">
                       <a
                         className="btn btn-primary"
-                        onClick={() => handleDeletePost(id)}
+                        onClick={() => setShowModal(true)}
                       >
                         <i className="bi bi-trash"></i>
                       </a>
@@ -196,7 +197,61 @@ export default function PostItem({ params }: { params: { id: string } }) {
         </div>
       </section>
       <Footer />
+
+      {/* Modal HTML */}
+      {showModal && (
+        <div
+          id="myModal"
+          className="modal fade show"
+          style={{ display: "block" }}
+        >
+          <div className="modal-dialog modal-confirm show">
+            <div className={`modal-content ${showModal ? "show" : ""}`}>
+              <div className="modal-header flex-column">
+                <div className="icon-box">
+                  <i className="bi bi-trash3-fill"></i>
+                </div>
+                <h4 className="modal-title w-100">Are you sure?</h4>
+                <button
+                  type="button"
+                  className="close"
+                  data-dismiss="modal"
+                  aria-hidden="true"
+                  onClick={() => setShowModal(false)}
+                >
+                  <i className="bi bi-x-lg"></i>
+                </button>
+              </div>
+              <div className="modal-body">
+                <p>
+                  Do you really want to delete this post? This process cannot be
+                  undone.
+                </p>
+              </div>
+              <div className="modal-footer justify-content-center">
+                <button
+                  type="button"
+                  className="btn btn-secondary"
+                  data-dismiss="modal"
+                  onClick={() => setShowModal(false)}
+                >
+                  Cancel
+                </button>
+                <button
+                  type="button"
+                  className="btn btn-danger"
+                  onClick={() => {
+                    handleDeletePost(id);
+                    setShowModal(false);
+                  }}
+                >
+                  Delete
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </main>
   );
 }
-
