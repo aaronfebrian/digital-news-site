@@ -210,11 +210,7 @@ export default function CreatePostItem() {
                           disabled={isSending}
                         >
                           {isSending ? (
-                            <span className="sending-text">
-                              Sending Post<span className="dot-1">.</span>
-                              <span className="dot-2">.</span>
-                              <span className="dot-3">.</span>
-                            </span>
+                            <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                           ) : (
                             "Post Item"
                           )}

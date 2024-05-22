@@ -196,11 +196,7 @@ export default function EditPostItem({ params }: { params: { id: string } }) {
                           disabled={isSending} // Disable the button while sending
                         >
                           {isSending ? (
-                            <span className="sending-text">
-                              Sending Update<span className="dot-1">.</span>
-                              <span className="dot-2">.</span>
-                              <span className="dot-3">.</span>
-                            </span>
+                            <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                           ) : (
                             "Update Post"
                           )}
