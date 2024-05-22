@@ -8,6 +8,7 @@ const Register: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isSuccess, setIsSuccess] = useState<boolean>(false);
+  const [showPassword, setShowPassword] = useState<boolean>(false);
   const router = useRouter();
   const [formData, setFormData] = useState({
     username: "",
@@ -54,6 +55,10 @@ const Register: React.FC = () => {
     }
   };
 
+  const toggleShowPassword = () => {
+    setShowPassword((prevShowPassword) => !prevShowPassword);
+  };
+
   return (
     <section className="h-100 gradient-form" style={{ backgroundColor: "#eee" }}>
       <div className="container py-5 h-100">
@@ -94,9 +99,9 @@ const Register: React.FC = () => {
                         />
                       </div>
 
-                      <div className="form-outline mb-4">
+                      <div className="form-outline mb-4 position-relative">
                         <input
-                          type="password"
+                          type={showPassword ? "text" : "password"}
                           placeholder="Your password"
                           id="form2Example22"
                           className="form-control"
@@ -104,6 +109,17 @@ const Register: React.FC = () => {
                           value={formData.password}
                           onChange={handleChange}
                         />
+                        <span
+                          className="eye-icon"
+                          onClick={toggleShowPassword}
+                          style={{ cursor: "pointer", position: "absolute", right: "10px", top: "50%", transform: "translateY(-50%)" }}
+                        >
+                          {showPassword ? (
+                            <i className="bi bi-eye-slash"></i>
+                          ) : (
+                            <i className="bi bi-eye"></i>
+                          )}
+                        </span>
                       </div>
 
                       {error && <p className="error">{error}</p>}

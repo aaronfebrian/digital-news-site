@@ -51,7 +51,7 @@ export default function Header() {
             {showUserMenu && (
               <div className="user-menu">
                 <div className="user-menu-header">
-                  <p>{user?.username}</p>
+                  <p>{user?.username} ({user?.role})</p>
                 </div>
                 <div className="user-menu-options">
                   <LogoutButton />

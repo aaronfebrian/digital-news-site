@@ -1,4 +1,3 @@
-// components/LoginForm.tsx
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
@@ -8,6 +7,7 @@ export default function LoginForm() {
   const [form, setForm] = useState({ email: "", password: "" });
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [showPassword, setShowPassword] = useState<boolean>(false);
   const router = useRouter();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -43,6 +43,10 @@ export default function LoginForm() {
     }
   };
 
+  const toggleShowPassword = () => {
+    setShowPassword((prevShowPassword) => !prevShowPassword);
+  };
+
   return (
     <section className="h-100 gradient-form" style={{ backgroundColor: "#eee" }}>
       <div className="container py-5 h-100">
@@ -68,9 +72,9 @@ export default function LoginForm() {
                           onChange={handleChange}
                         />
                       </div>
-                      <div className="form-outline mb-4">
+                      <div className="form-outline mb-4 position-relative">
                         <input
-                          type="password"
+                          type={showPassword ? "text" : "password"}
                           placeholder="Your password"
                           id="form2Example22"
                           className="form-control"
@@ -78,6 +82,17 @@ export default function LoginForm() {
                           value={form.password}
                           onChange={handleChange}
                         />
+                        <span
+                          className="eye-icon"
+                          onClick={toggleShowPassword}
+                          style={{ cursor: "pointer", position: "absolute", right: "10px", top: "50%", transform: "translateY(-50%)" }}
+                        >
+                          {showPassword ? (
+                            <i className="bi bi-eye-slash"></i>
+                          ) : (
+                            <i className="bi bi-eye"></i>
+                          )}
+                        </span>
                       </div>
                       {error && <p className="error">{error}</p>}
                       <div className="text-center pt-1 mb-5 pb-1">
