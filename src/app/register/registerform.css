@@ -1,9 +1,17 @@
 .gradient-custom-2 {
   /* fallback for old browsers */
   background: #000000;
-  background-image: url("/public/assets/img/Timeless%20Treasures%20-%20Newspaper%20Print%20-%20Black%20Fabric%20by%20Wing%20and%20a%20Prayer%20Design%20-%20Digital%20Print%20-%20Cotton%20Fabric.jpeg");
+  /* background: url('/public/assets/img/newspaper.jpeg');
   background-size: cover;
-  background-repeat: no-repeat;
+  background-repeat: no-repeat; */
+
+  /* Untuk Webkit (Safari/Chrome 10+) */
+background: -webkit-linear-gradient(to right, #333, #777, #aaa, #ddd);
+
+/* Untuk W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+background: linear-gradient(to right, #333, #777, #aaa, #ddd);
+
+
 }
 
 @media (min-width: 768px) {
