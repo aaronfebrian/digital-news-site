@@ -16,10 +16,11 @@ export interface PostProps {
   brief: string;
   avatar: string;
   author: string; 
-  trending: boolean
+  trending: boolean;
+  top: boolean;
 }
 
-export const initialPost = {
+export const initialPost: PostProps = {
   _id: '',
   img: '',
   category: '',
@@ -29,17 +30,20 @@ export const initialPost = {
   avatar: '',
   author: '',
   trending: false,
+  top: false,
 }
 
 export default function Posts() {
   const router = useRouter();
-  const [items, setItems] = useState([]);
-  const [item, setItem] = useState(initialPost);
+  const [items, setItems] = useState<PostProps[]>([]);
+  const [item, setItem] = useState<PostProps>(initialPost);
 
   const getItemsData = () => {
-    fetch("/api/postitems")
+    fetch("/api/postitems?start=0&perPage=8")
       .then((res) => res.json())
-      .then((data) => setItems(data))
+      .then((data) => {
+        setItems(data.items); // Pastikan data.items digunakan
+      })
       .catch((e) => console.log(e.message));
   };
 
@@ -73,11 +77,10 @@ export default function Posts() {
                 {items && items.length > 0 ? (
                   items
                     .filter(
-                      (item: { trending: boolean; top: boolean }) =>
-                        !item.trending && !item.top
+                      (item) => !item.trending && !item.top
                     )
                     .slice(0, 3)
-                    .map((item: PostProps) => (
+                    .map((item) => (
                       <PostItemOne key={item._id} large={false} item={item} />
                     ))
                 ) : (
@@ -88,11 +91,10 @@ export default function Posts() {
                 {items && items.length > 0 ? (
                   items
                     .filter(
-                      (item: { trending: boolean; top: boolean }) =>
-                        !item.trending && !item.top
+                      (item) => !item.trending && !item.top
                     )
                     .slice(3, 6)
-                    .map((item: PostProps) => (
+                    .map((item) => (
                       <PostItemOne key={item._id} large={false} item={item} />
                     ))
                 ) : (
@@ -105,8 +107,8 @@ export default function Posts() {
                   <ul className="trending-post">
                     {items && items.length > 0 ? (
                       items
-                        .filter((item: { trending: boolean }) => item.trending)
-                        .map((item: PostProps, index: number) => (
+                        .filter((item) => item.trending)
+                        .map((item, index) => (
                           <TrendingPost
                             key={item._id}
                             index={index}

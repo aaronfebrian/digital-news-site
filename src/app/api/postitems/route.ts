@@ -3,10 +3,28 @@ import PostItem from "../../../../models/Postitem";
 
 dbConnect();
 
-export async function GET() {
-    const postItems = await PostItem.find();
-    return Response.json(postItems);
-}  
+export async function GET(request: Request): Promise<Response> {
+  const url = new URL(request.url);
+  const start = parseInt(url.searchParams.get("start") || "0");
+  const perPage = parseInt(url.searchParams.get("perPage") || "8");
+
+  try {
+    const totalItems = await PostItem.countDocuments(); // Total count of documents
+    const postItems = await PostItem.find()
+      .skip(start)
+      .limit(perPage);
+    return new Response(JSON.stringify({ items: postItems, totalCount: totalItems }), {
+      headers: {
+        "Content-Type": "application/json",
+      },
+      status: 200,
+    });
+  } catch (error) {
+    return new Response(JSON.stringify({ message: "SERVER ERROR" }), {
+      status: 500,
+    });
+  }
+}
 
 export async function POST(request: Request) {
   const postItem = await request.json();
