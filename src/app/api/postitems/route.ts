@@ -7,12 +7,18 @@ export async function GET(request: Request): Promise<Response> {
   const url = new URL(request.url);
   const start = parseInt(url.searchParams.get("start") || "0");
   const perPage = parseInt(url.searchParams.get("perPage") || "8");
+  const searchQuery = url.searchParams.get("search") || "";
 
   try {
-    const totalItems = await PostItem.countDocuments(); // Total count of documents
-    const postItems = await PostItem.find()
+    const query = searchQuery
+      ? { title: { $regex: searchQuery, $options: "i" } } // Case insensitive search
+      : {};
+
+    const totalItems = await PostItem.countDocuments(query);
+    const postItems = await PostItem.find(query)
       .skip(start)
       .limit(perPage);
+
     return new Response(JSON.stringify({ items: postItems, totalCount: totalItems }), {
       headers: {
         "Content-Type": "application/json",

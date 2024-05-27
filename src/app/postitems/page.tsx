@@ -13,17 +13,26 @@ export default function PostItems() {
   const [items, setItems] = useState<PostProps[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalItems, setTotalItems] = useState(0);
-  const perPage = 8;
+  const [searchQuery, setSearchQuery] = useState("");
+  const [isLoading, setIsLoading] = useState(true); // State to handle loading
+  const perPage = 12;
 
   const getItemsData = () => {
+    setIsLoading(true);
     const startIndex = (currentPage - 1) * perPage;
-    fetch(`/api/postitems?start=${startIndex}&perPage=${perPage}`)
+    fetch(
+      `/api/postitems?start=${startIndex}&perPage=${perPage}&search=${searchQuery}`
+    )
       .then((res) => res.json())
       .then((data) => {
         setItems(data.items);
         setTotalItems(data.totalCount);
+        setIsLoading(false);
       })
-      .catch((e) => console.log(e.message));
+      .catch((e) => {
+        console.log(e.message);
+        setIsLoading(false);
+      });
   };
 
   useEffect(() => {
@@ -34,14 +43,36 @@ export default function PostItems() {
     setCurrentPage(data.selected + 1);
   };
 
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    setCurrentPage(1);
+    getItemsData();
+  };
+
   return (
     <main id="main" className="main-container">
       <Header />
       <section id="posts" className="posts">
         <div className="container">
           <div className="row">
+            <div className="d-flex justify-content-center align-items-center">
+              <div className="col-md-6 col-12">
+                <form onSubmit={handleSearch} className="search-bar">
+                  <i className="bi bi-search"></i>
+                  <input
+                    type="text"
+                    className="form-control form-input"
+                    placeholder="Search post..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                  />
+                </form>
+              </div>
+            </div>
             <PageTitle title="Post Items List" />
-            {items && items.length > 0 ? (
+            {isLoading ? (
+              <Preloader />
+            ) : items.length > 0 ? (
               <div>
                 <div className="row">
                   {items.map((item: PostProps, index: number) => (
@@ -72,7 +103,7 @@ export default function PostItems() {
                 </div>
               </div>
             ) : (
-              <Preloader />
+              <div className="no-posts">Post not listed</div>
             )}
           </div>
         </div>
