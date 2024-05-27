@@ -103,7 +103,7 @@ export default function PostItems() {
                 </div>
               </div>
             ) : (
-              <div className="no-posts">Post not listed</div>
+              <div className="no-posts">Post not found</div>
             )}
           </div>
         </div>
