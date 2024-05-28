@@ -16,6 +16,7 @@ export async function GET(request: Request): Promise<Response> {
 
     const totalItems = await PostItem.countDocuments(query);
     const postItems = await PostItem.find(query)
+      .sort({ date: -1 }) // Menyortir berdasarkan tanggal terbaru
       .skip(start)
       .limit(perPage);
 

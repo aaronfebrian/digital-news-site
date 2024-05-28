@@ -39,9 +39,10 @@ export default function Posts() {
   const [item, setItem] = useState<PostProps>(initialPost);
 
   const getItemsData = () => {
-    fetch("/api/postitems?start=0&perPage=8")
+    fetch("/api/postitems?start=0&perPage=10")
       .then((res) => res.json())
       .then((data) => {
+        console.log('items data', data);
         setItems(data.items); // Pastikan data.items digunakan
       })
       .catch((e) => console.log(e.message));
@@ -62,6 +63,9 @@ export default function Posts() {
   useEffect(() => {
     getItemsData();
     getSinglePostdata("6646c9fafb38ec882b102655");
+    
+    const interval = setInterval(getItemsData, 10000); // Polling setiap 10 detik
+    return () => clearInterval(interval); // Membersihkan interval saat komponen unmount
   }, []);
 
   return (
