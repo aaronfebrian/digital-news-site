@@ -14,7 +14,7 @@ export default function PostItems() {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalItems, setTotalItems] = useState(0);
   const [searchQuery, setSearchQuery] = useState("");
-  const [isLoading, setIsLoading] = useState(true); // State to handle loading
+  const [isLoading, setIsLoading] = useState(true);
   const perPage = 12;
 
   const getItemsData = () => {
@@ -37,7 +37,7 @@ export default function PostItems() {
 
   useEffect(() => {
     getItemsData();
-  }, [currentPage]);
+  }, [currentPage, searchQuery]);
 
   const handlePageClick = (data: { selected: number }) => {
     setCurrentPage(data.selected + 1);
@@ -99,6 +99,7 @@ export default function PostItems() {
                     previousLinkClassName={"page-link"}
                     nextClassName={"page-item"}
                     nextLinkClassName={"page-link"}
+                    forcePage={currentPage - 1} // Ensure the correct page is highlighted
                   />
                 </div>
               </div>
