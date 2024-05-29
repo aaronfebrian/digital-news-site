@@ -1,5 +1,3 @@
-"use client";
-
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import "./posts.css";
@@ -15,35 +13,44 @@ export interface PostProps {
   title: string;
   brief: string;
   avatar: string;
-  author: string; 
+  author: string;
   trending: boolean;
   top: boolean;
 }
 
 export const initialPost: PostProps = {
-  _id: '',
-  img: '',
-  category: '',
-  date: '',
-  title: '',
-  brief: '',
-  avatar: '',
-  author: '',
+  _id: "",
+  img: "",
+  category: "",
+  date: "",
+  title: "",
+  brief: "",
+  avatar: "",
+  author: "",
   trending: false,
   top: false,
-}
+};
 
 export default function Posts() {
   const router = useRouter();
   const [items, setItems] = useState<PostProps[]>([]);
+  const [trendingItems, setTrendingItems] = useState<PostProps[]>([]);
   const [item, setItem] = useState<PostProps>(initialPost);
 
   const getItemsData = () => {
     fetch("/api/postitems?start=0&perPage=10")
       .then((res) => res.json())
       .then((data) => {
-        console.log('items data', data);
-        setItems(data.items); // Pastikan data.items digunakan
+        setItems(data.items);
+      })
+      .catch((e) => console.log(e.message));
+  };
+
+  const getTrendingItemsData = () => {
+    fetch("/api/postitems?trending=true")
+      .then((res) => res.json())
+      .then((data) => {
+        setTrendingItems(data.items);
       })
       .catch((e) => console.log(e.message));
   };
@@ -62,9 +69,14 @@ export default function Posts() {
 
   useEffect(() => {
     getItemsData();
+    getTrendingItemsData();
     getSinglePostdata("6646c9fafb38ec882b102655");
-    
-    const interval = setInterval(getItemsData, 10000); // Polling setiap 10 detik
+
+    const interval = setInterval(() => {
+      getItemsData();
+      getTrendingItemsData();
+    }, 10000); // Polling setiap 10 detik
+
     return () => clearInterval(interval); // Membersihkan interval saat komponen unmount
   }, []);
 
@@ -80,9 +92,6 @@ export default function Posts() {
               <div className="col-lg-4 border-start custom-border">
                 {items && items.length > 0 ? (
                   items
-                    .filter(
-                      (item) => !item.trending && !item.top
-                    )
                     .slice(0, 3)
                     .map((item) => (
                       <PostItemOne key={item._id} large={false} item={item} />
@@ -94,9 +103,6 @@ export default function Posts() {
               <div className="col-lg-4 border-start custom-border">
                 {items && items.length > 0 ? (
                   items
-                    .filter(
-                      (item) => !item.trending && !item.top
-                    )
                     .slice(3, 6)
                     .map((item) => (
                       <PostItemOne key={item._id} large={false} item={item} />
@@ -109,16 +115,10 @@ export default function Posts() {
                 <div className="trending">
                   <h3>Trending</h3>
                   <ul className="trending-post">
-                    {items && items.length > 0 ? (
-                      items
-                        .filter((item) => item.trending)
-                        .map((item, index) => (
-                          <TrendingPost
-                            key={item._id}
-                            index={index}
-                            item={item}
-                          />
-                        ))
+                    {trendingItems && trendingItems.length > 0 ? (
+                      trendingItems.map((item, index) => (
+                        <TrendingPost key={item._id} index={index} item={item} />
+                      ))
                     ) : (
                       <Preloader />
                     )}

@@ -15,6 +15,7 @@ export default function PostItems() {
   const [totalItems, setTotalItems] = useState(0);
   const [searchQuery, setSearchQuery] = useState("");
   const [isLoading, setIsLoading] = useState(true);
+  const [searchInput, setSearchInput] = useState(""); // State to manage input field value
   const perPage = 12;
 
   const getItemsData = () => {
@@ -37,7 +38,7 @@ export default function PostItems() {
 
   useEffect(() => {
     getItemsData();
-  }, [currentPage, searchQuery]);
+  }, [currentPage, searchQuery]); // Include searchQuery here to trigger search when it changes
 
   const handlePageClick = (data: { selected: number }) => {
     setCurrentPage(data.selected + 1);
@@ -45,8 +46,8 @@ export default function PostItems() {
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
+    setSearchQuery(searchInput); // Update searchQuery state when form is submitted
     setCurrentPage(1);
-    getItemsData();
   };
 
   return (
@@ -63,8 +64,8 @@ export default function PostItems() {
                     type="text"
                     className="form-control form-input"
                     placeholder="Search post..."
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
+                    value={searchInput}
+                    onChange={(e) => setSearchInput(e.target.value)} // Update searchInput state
                   />
                 </form>
               </div>

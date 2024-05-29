@@ -6,17 +6,24 @@ dbConnect();
 export async function GET(request: Request): Promise<Response> {
   const url = new URL(request.url);
   const start = parseInt(url.searchParams.get("start") || "0");
-  const perPage = parseInt(url.searchParams.get("perPage") || "8");
+  const perPage = parseInt(url.searchParams.get("perPage") || "10");
   const searchQuery = url.searchParams.get("search") || "";
+  const isTrending = url.searchParams.get("trending") === "true";
 
   try {
-    const query = searchQuery
-      ? { title: { $regex: searchQuery, $options: "i" } } // Case insensitive search
-      : {};
+    let query: any = {};
+
+    if (searchQuery) {
+      query.title = { $regex: searchQuery, $options: "i" };
+    }
+
+    if (isTrending) {
+      query.trending = true;
+    }
 
     const totalItems = await PostItem.countDocuments(query);
     const postItems = await PostItem.find(query)
-      .sort({ date: -1 }) // Menyortir berdasarkan tanggal terbaru
+      .sort({ date: -1 }) // Mengurutkan berdasarkan tanggal
       .skip(start)
       .limit(perPage);
 

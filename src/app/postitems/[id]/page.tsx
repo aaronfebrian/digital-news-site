@@ -14,6 +14,7 @@ export default function PostItem({ params }: { params: { id: string } }) {
   const router = useRouter();
   const [item, setItem] = useState(initialPost);
   const [items, setItems] = useState<PostProps[]>([]);
+  const [trendingItems, setTrendingItems] = useState<PostProps[]>([]);
   const [userRole, setUserRole] = useState<string | null>(null);
   const [showModal, setShowModal] = useState(false);
 
@@ -36,7 +37,7 @@ export default function PostItem({ params }: { params: { id: string } }) {
 
   const handleTabActive = (id: number): void => {
     setTabs(
-      tabsData.map((tab) => {
+      tabs.map((tab) => {
         tab.active = tab.id === id;
         return tab;
       })
@@ -53,13 +54,21 @@ export default function PostItem({ params }: { params: { id: string } }) {
   const getItemsData = () => {
     fetch("/api/postitems")
       .then((res) => res.json())
-      .then((data) => setItems(data.items || [])) // Ensure items is an array
+      .then((data) => setItems(data.items || []))
+      .catch((e) => console.log(e.message));
+  };
+
+  const getTrendingItemsData = () => {
+    fetch("/api/postitems?trending=true")
+      .then((res) => res.json())
+      .then((data) => setTrendingItems(data.items || []))
       .catch((e) => console.log(e.message));
   };
 
   useEffect(() => {
     getSinglePostData();
     getItemsData();
+    getTrendingItemsData();
   }, []);
 
   const handleDeletePost = async (id: string) => {
@@ -167,8 +176,7 @@ export default function PostItem({ params }: { params: { id: string } }) {
                       tabs[1].active ? "show active" : ""
                     }`}
                   >
-                    {items
-                      .filter((item) => item.trending)
+                    {trendingItems
                       .slice(0, 7)
                       .map((item: PostProps) => (
                         <SidePostItem key={item._id} item={item} />
